@@ -1,0 +1,17 @@
+{
+  "name": "docker-event-notifications",
+  "version": "1.0.0",
+  "description": "Passing arround docker events",
+  "main": "index.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Xantios Krugor",
+  "license": "ISC",
+  "dependencies": {
+    "docker-events": "0.0.2",
+    "dockerode": "^2.5.5",
+    "request": "^2.87.0"
+  }
+}
