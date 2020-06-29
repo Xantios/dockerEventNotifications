@@ -10,8 +10,8 @@
   "author": "Xantios Krugor",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "docker-events": "0.0.2",
-    "dockerode": "^2.5.5",
-    "request": "^2.87.0"
+    "dockerode": "^2.5.5"
   }
 }

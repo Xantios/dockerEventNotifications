@@ -7,7 +7,7 @@ if(!target) {
 
 const Docker = require('dockerode');
 const DockerEvents = require('docker-events');
-const request = require('request');
+const axios = require('axios');
 
 var emitter = new DockerEvents({
     docker: new Docker({socketPath: '/var/run/docker.sock'})
@@ -53,19 +53,13 @@ emitter.on("destroy", function(message) {
 });
 
 function dispatch(msg,target,method="POST") {
-    
-    request({
+
+    axios({
         method: method,
         url: target,
         data: JSON.stringify(msg)
-    },(error,response,body)=> {
-        
-        if(error) {
-            console.error(error);
-            console.log(response);
-        }
-        
-        //console.info(response);
-        // console.log(body);
-    });
+    })
+    .then((_) => console.log('Message send OK'))
+    .catch(e => console.error(`Error while sending message to ${target} `,e))
+
 }
