@@ -15,51 +15,21 @@ var emitter = new DockerEvents({
 
 emitter.start();
 
-emitter.on('connect',function() {
-    console.log('-- Connected to docker API');
-});
+emitter.on('connect',() => console.log('-- Connected to docker API'));
+emitter.on("disconnect", () => console.log("-- Disconnected to docker api; reconnecting"));
 
-emitter.on("disconnect", function() {
-    console.log("-- Disconnected to docker api; reconnecting");
-});
-
-emitter.on("_message", function(message) {
-    dispatch(message,target);
-});
-
-emitter.on("create", function(message) {
-    console.log("container created: %j", message);
-    dispatch(message,target);
-});
-
-emitter.on("start", function(message) {
-    console.log("container started: %j", message);
-    dispatch(message,target);
-});
-
-emitter.on("stop", function(message) {
-    console.log("container stopped: %j", message);
-    dispatch(message,target);
-});
-
-emitter.on("die", function(message) {
-    console.log("container died: %j", message);
-    dispatch(message,target);
-});
-
-emitter.on("destroy", function(message) {
-    console.log("container destroyed: %j", message);
-    dispatch(message,target);
-});
+emitter.on("_message", (message) => dispatch(message,target));
 
 function dispatch(msg,target,method="POST") {
 
     axios({
         method: method,
         url: target,
-        data: JSON.stringify(msg)
+        data: JSON.stringify(msg),
+        timeout: 10000,
     })
-    .then((_) => console.log('Message send OK'))
-    .catch(e => console.error(`Error while sending message to ${target} `,e))
-
+    .then()
+    .catch(e => {
+        console.error('Error while seding data to webhook '+target+" ["+msg.Type+" => "+msg.status+"]");
+    });
 }
